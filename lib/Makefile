@@ -5,27 +5,20 @@ SRCS = ../src/mystrfunctions.c ../src/myfilefunctions.c
 OBJS = $(SRCS:../src/%.c=../obj/%.o)
 LIBNAME = myutils
 
-.PHONY: all static dynamic clean
+.PHONY: all static clean
 
-all: static dynamic
+all: static
 
 ../obj/%.o: ../src/%.c
 	mkdir -p ../obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
-static: lib/lib$(LIBNAME).a
+static: lib$(LIBNAME).a
 
-lib/lib$(LIBNAME).a: $(OBJS)
-	mkdir -p lib
-	ar rcs lib/lib$(LIBNAME).a $(OBJS)
-	ranlib lib/lib$(LIBNAME).a
-
-dynamic: lib/lib$(LIBNAME).so
-
-lib/lib$(LIBNAME).so: $(OBJS)
-	mkdir -p lib
-	$(CC) -shared -Wl,-soname,lib$(LIBNAME).so -o lib/lib$(LIBNAME).so $(OBJS)
+lib$(LIBNAME).a: $(OBJS)
+	ar rcs lib$(LIBNAME).a $(OBJS)
+	ranlib lib$(LIBNAME).a
 
 clean:
-	rm -f ../obj/*.o lib/*.a lib/*.so
+	rm -f ../obj/*.o lib$(LIBNAME).a
 

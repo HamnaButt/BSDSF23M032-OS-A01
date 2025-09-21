@@ -6,6 +6,7 @@ all: static multifile
 # build libraries first
 static:
 	$(MAKE) -C lib static
+	$(MAKE) -C src static
 
 multifile:
 	$(MAKE) -C src multifile

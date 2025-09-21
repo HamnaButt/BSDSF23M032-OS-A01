@@ -19,16 +19,15 @@ multifile: $(OBJS)
 	$(CC) $(CFLAGS) -o $(BIN)/client $(OBJS)
 
 # link with static library (assumes lib/libmyutils.a exists)
-static: $(OBJS)
+static: ../obj/main.o
 	$(MAKE) -C ../lib static
 	mkdir -p $(BIN)
-	$(CC) $(CFLAGS) -L$(LIB) -l$(LIBNAME) -o $(BIN)/client_static ../obj/main.o
+	$(CC) $(CFLAGS) -o $(BIN)/client_static ../obj/main.o -L$(LIB) -l$(LIBNAME)
 
 # dynamic link (assumes lib/libmyutils.so exists)
-dynamic: $(OBJS)
+dynamic: ../obj/main.o
 	$(MAKE) -C ../lib dynamic
 	mkdir -p $(BIN)
-	# runtime loader may need LD_LIBRARY_PATH
 	$(CC) $(CFLAGS) -L$(LIB) -Wl,-rpath=$(CURDIR)/../lib -l$(LIBNAME) -o $(BIN)/client_dynamic ../obj/main.o
 
 clean:
