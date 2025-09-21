@@ -22,13 +22,13 @@ multifile: $(OBJS)
 static: ../obj/main.o
 	$(MAKE) -C ../lib static
 	mkdir -p $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/client_static ../obj/main.o -L$(LIB) -l$(LIBNAME)
+	$(CC) $(CFLAGS) ../obj/main.o -L$(LIB) -l$(LIBNAME) -o $(BIN)/client_static
 
-# dynamic link (assumes lib/libmyutils.so exists)
+# link with dynamic library (assumes lib/libmyutils.so exists)
 dynamic: ../obj/main.o
 	$(MAKE) -C ../lib dynamic
 	mkdir -p $(BIN)
-	$(CC) $(CFLAGS) -L$(LIB) -Wl,-rpath=$(CURDIR)/../lib -l$(LIBNAME) -o $(BIN)/client_dynamic ../obj/main.o
+	$(CC) $(CFLAGS) ../obj/main.o -L$(LIB) -l$(LIBNAME) -Wl,-rpath=$(CURDIR)/../lib -o $(BIN)/client_dynamic
 
 clean:
 	rm -f ../obj/*.o ../bin/*
